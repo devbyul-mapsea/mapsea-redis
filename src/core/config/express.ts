@@ -54,7 +54,7 @@ app.use(morgan('combined', { stream }));
  * Route
  */
 app.use('/status', statusRouter);
-app.use('/api', redisRouter);
+app.use('/redis', redisRouter);
 // app.use('/whitelist');
 
 /**

@@ -1,8 +1,7 @@
-# [MAPSEA] Proxy Server Template
+# [MAPSEA] Redis Reverse Proxy Server
 
 ## 개발자
  - 담당자 : 최민석(devbyul-mapsea)
- - 관리자 : 김성범(boooyo0914)
 
 ## 개발 환경
  - Server : Node v16.17.0
@@ -12,11 +11,9 @@
  - Swagger-Endpoint : /api-docs
 
 ## 서버 소개
- - 국세청에서 제공하는 사업자등록번호 상태조회 / 사업자 정보 진위 확인 openApi 를 사용하기 위한 프록시 서버입니다.
+ - Redis Reverse Proxy 서버입니다.
 
 ### 사용 용도
- - 별도 서비스 앞단에 두어 나머지 서버들에 대한 정보를 감추기 위한 용도로도 사용 합니다.
- - Open API 를 사용할 경우 API Key 값을 백앤드 서버에서 관리하기 위한 용도입니다.
 
 ## 추가 작업 필요한 부분
     Docker
