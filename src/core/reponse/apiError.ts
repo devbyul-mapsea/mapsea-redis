@@ -10,7 +10,7 @@ export default class ApiError {
   statusCode: number;
   validation?: ValidationErrorCustomMsg;
   sql?: string;
-
+  data?: any;
   constructor(
     res: Response,
     error: {
@@ -19,6 +19,7 @@ export default class ApiError {
       statusCode: number;
       validation?: ValidationErrorCustomMsg;
       sql?: string;
+      data?: any;
     }
   ) {
     this.res = res;
@@ -27,6 +28,7 @@ export default class ApiError {
     this.statusCode = error?.statusCode;
     this.validation = error?.validation;
     this.sql = error?.sql;
+    this.data = error?.data;
   }
 
   sendError = () => {
@@ -47,6 +49,7 @@ export default class ApiError {
         message: this.message,
         validation: this.validation,
         sql: this.sql,
+        data: this.data,
       });
     } catch (error) {
       return this.res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

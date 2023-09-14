@@ -5,3 +5,10 @@
   $ref: 'status/node/monitor.yaml'
 /status/db/mysql/health:
   $ref: 'status/mysql/health.yaml'
+
+/redis/standard/v1/nice/pass-key:
+  post:
+    $ref: 'standard/openapi/set_nice_pass_key.yaml'    
+/redis/standard/v1/nice/pass-key/{integrity_value}:
+  get:
+    $ref: 'standard/openapi/get_nice_pass_key.yaml'    

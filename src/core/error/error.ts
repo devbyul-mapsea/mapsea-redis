@@ -1,6 +1,7 @@
-import { AUTH_ERROR_CODE } from '../enum';
+import { AUTH_ERROR_CODE, REDIS_ERROR_CODE } from '../enum';
 
 import { AUTH_ERROR_STATUS } from './auth.error';
+import { REDIS_ERROR_STATUS } from './redis.error';
 
 import { SERVER_ERROR_STATUS } from './server.error';
 
@@ -9,6 +10,9 @@ export const ERROR_STATUS = (error: any) => {
 
   if (code in AUTH_ERROR_CODE) {
     return AUTH_ERROR_STATUS(code);
+  }
+  if (code in REDIS_ERROR_CODE) {
+    return REDIS_ERROR_STATUS(error);
   }
 
   return SERVER_ERROR_STATUS(code);

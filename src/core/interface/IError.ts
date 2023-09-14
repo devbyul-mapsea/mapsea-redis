@@ -22,7 +22,9 @@ interface IDatabaseError extends IError {
 export interface IErrorStatus {
   [key: string]: IError;
 }
-
+export interface IRedisErrorStatus {
+  [key: string]: ({ message, data }: { message: string; data?: any }) => IError;
+}
 export interface IValidationErrorStatus {
   [key: string]: (validation: Result<any>) => IValidationError;
 }

@@ -1,0 +1,58 @@
+tags:
+  - standard-openapi
+summary: "NICE API PASS 암호화 데이터 조회"
+description: |
+  <h1>NICE API PASS 암호화 데이터 조회</h1>
+  **Endpoint:**  `/redis/standard/v1/nice/pass-key/{integrity_value}`</br>
+  **Descritpion:**
+    - NICE API PASS 암호화 데이터 조회
+
+  <h1>Request Format</h1>
+  **Method:** `GET`<br>
+  **ContentType:** `application/json`<br>
+  **Parameter:**
+  ```json
+  {
+    "integrity_value": "b67b72dc464811ee893256b4847bdbda"
+  }
+  ```
+
+parameters:
+  - name: integrity_value
+    in: path
+    description: PASS 암호화 데이터 무결성키
+    required: true
+    schema:
+      type: string
+
+responses:
+  # "200":
+  #   description: Successful operation
+  #   content:
+  #     application/json:
+  #       schema:
+  #         $ref: "../../swagger.yaml#/components/schemas/로그인_Response"      
+  "401":
+    description: Authentication failed
+    content:
+      application/json:
+        schema:
+          $ref: "../../swagger.yaml#/components/schemas/Authentication"
+  "403":
+    description: Authentication failed
+    content:
+      application/json:
+        schema:
+          $ref: "../../swagger.yaml#/components/schemas/AuthForbidden"
+  "422":
+    description: Validation fail.
+    content:
+      application/json:
+        schema:
+    $ref: "../../swagger.yaml#/components/schemas/ValidationError"
+  "500":
+    description: Internal Server Error.
+    content:
+      application/json:
+        schema:
+          $ref: "../../swagger.yaml#/components/schemas/InternalError"

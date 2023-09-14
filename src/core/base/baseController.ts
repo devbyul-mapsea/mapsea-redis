@@ -4,7 +4,7 @@ import { ERROR_STATUS, SERVER_ERROR_STATUS } from '../error';
 import ApiError from '../reponse/apiError';
 
 export default class BaseController {
-  static ErrorResponse = (res: Response, error: any) => {
+  protected static ErrorResponse = (res: Response, error: any) => {
     const ERROR_CODE = error?.response?.data?.status_code ?? error.code;
     console.log('BaseController ERROR_CODE : ', ERROR_CODE);
     console.trace();

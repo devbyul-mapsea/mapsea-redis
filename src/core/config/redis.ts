@@ -2,8 +2,6 @@ import { createClient } from 'redis';
 import { logger } from './logger';
 import dotEnv from './dotenv';
 
-const conn: { [key: string]: any } = {};
-
 const connection_test_query = async (db_info: {
   host: string;
   port: number;
@@ -34,10 +32,14 @@ const connection_test_query = async (db_info: {
     }
 
     const { version, mode, role } = redis_info;
+    const server_time = await redis_cli.time();
     logger.info(`Redis Connection : ${host}:${port}`);
     logger.info(` * Version : ${version}`);
     logger.info(` * Mode : ${mode}`);
     logger.info(` * Role : ${role}`);
+    logger.info(` * ServerTime : ${server_time}`);
+
+    redis_cli.quit();
   } catch (error: any) {
     logger.error(
       `[${host}:${port} Redis] Connection Error : ${error.message} url : ${redis_url}`
@@ -50,3 +52,12 @@ const connection_test_query = async (db_info: {
   const { standard } = dotEnv.redis;
   [standard].map((db_info) => connection_test_query(db_info));
 })();
+
+const { host, port, username, password } = dotEnv.redis.standard;
+const standard_url = `redis://${username}:${password}@${host}:${port}/0`;
+
+const standard = createClient({ legacyMode: true, url: standard_url });
+standard.connect().then();
+const standard_cli = standard.v4;
+
+export { standard_cli };
