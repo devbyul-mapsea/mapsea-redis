@@ -1,0 +1,11 @@
+get:
+  tags:
+    - status
+  summary: proxy server monitor with node
+  description: "proxy server NODE 상태를 확인 할수 있는 API 입니다."
+  
+  responses:
+    "200":
+      description: Successful operation
+    "403":
+      $ref: "../../swagger.yaml#/components/schemas/AuthForbidden"

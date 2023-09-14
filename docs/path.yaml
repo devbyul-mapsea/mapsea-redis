@@ -1,0 +1,7 @@
+# Server Status
+/status/node/health:
+  $ref: 'status/node/health.yaml'
+/status/node/monitor:
+  $ref: 'status/node/monitor.yaml'
+/status/db/mysql/health:
+  $ref: 'status/mysql/health.yaml'
