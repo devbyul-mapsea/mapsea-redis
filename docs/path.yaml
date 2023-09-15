@@ -6,9 +6,9 @@
 /status/db/mysql/health:
   $ref: 'status/mysql/health.yaml'
 
-/redis/standard/v1/nice/pass-key:
+/redis/standard/v1/nice/pass-key/set:
   post:
     $ref: 'standard/openapi/set_nice_pass_key.yaml'    
-/redis/standard/v1/nice/pass-key/{integrity_value}:
-  get:
+/redis/standard/v1/nice/pass-key/get:
+  post:
     $ref: 'standard/openapi/get_nice_pass_key.yaml'    

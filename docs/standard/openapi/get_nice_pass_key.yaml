@@ -3,27 +3,29 @@ tags:
 summary: "NICE API PASS 암호화 데이터 조회"
 description: |
   <h1>NICE API PASS 암호화 데이터 조회</h1>
-  **Endpoint:**  `/redis/standard/v1/nice/pass-key/{integrity_value}`</br>
+  **Endpoint:**  `/redis/standard/v1/nice/pass-key/get`</br>
   **Descritpion:**
     - NICE API PASS 암호화 데이터 조회
 
   <h1>Request Format</h1>
   **Method:** `GET`<br>
   **ContentType:** `application/json`<br>
-  **Parameter:**
+  **Body:**
   ```json
   {
     "integrity_value": "b67b72dc464811ee893256b4847bdbda"
   }
   ```
 
-parameters:
-  - name: integrity_value
-    in: path
-    description: PASS 암호화 데이터 무결성키
-    required: true
-    schema:
-      type: string
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          integrity_value:
+            type: string
+            default: "202309140805241aaf3105dcdb8e669b"
 
 responses:
   # "200":

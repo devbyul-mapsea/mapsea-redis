@@ -57,6 +57,7 @@ const { host, port, username, password } = dotEnv.redis.standard;
 const standard_url = `redis://${username}:${password}@${host}:${port}/0`;
 
 const standard = createClient({ legacyMode: true, url: standard_url });
+
 standard.connect().then();
 const standard_cli = standard.v4;
 

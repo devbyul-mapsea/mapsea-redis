@@ -3,7 +3,7 @@ tags:
 summary: "NICE API PASS 암호화 데이터 저장"
 description: |
   <h1>NICE API PASS 암호화 데이터 저장</h1>
-  **Endpoint:**  `/redis/standard/v1/nice/pass-key`</br>
+  **Endpoint:**  `/redis/standard/v1/nice/pass-key/set`</br>
   **Descritpion:**
     - NICE API PASS 암호화 데이터 저장
 

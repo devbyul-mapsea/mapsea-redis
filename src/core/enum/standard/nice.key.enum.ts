@@ -3,4 +3,5 @@ export enum NiceApiNameSpaceEnum {
 }
 export enum NiceApiSubNameSpaceEnum {
   ENCRYPT = 'encrypt',
+  USER_INFO = 'user_info',
 }
