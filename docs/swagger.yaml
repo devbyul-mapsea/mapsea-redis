@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Mapsea Proxy Server With OpenApi
+  title: Mapsea Standard Redis Reverse Proxy Server
   description: |-
-    # Mapsea Proxy Server With OpenApi
+    # Mapsea Standard Redis Reverse Proxy Server
     **Endpoint:**  /api/</br>
     **Swagger:**  /api-docs</br>
     **Platform:** Node.Js<br>
@@ -22,7 +22,7 @@ info:
   version: 1.0.11
 
 servers:
-  - url: http://127.0.0.1:15000
+  - url: http://127.0.0.1:4100
 
 tags:
   - name: status
