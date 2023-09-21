@@ -3,29 +3,29 @@ tags:
 summary: "NICE API PASS 암호화 데이터 조회"
 description: |
   <h1>NICE API PASS 암호화 데이터 조회</h1>
-  **Endpoint:**  `/redis/standard/v1/nice/pass-key/get`</br>
+  **Endpoint:**  `/redis/standard/v1/nice/pass-key`</br>
   **Descritpion:**
     - NICE API PASS 암호화 데이터 조회
 
   <h1>Request Format</h1>
   **Method:** `GET`<br>
   **ContentType:** `application/json`<br>
-  **Body:**
+  **QueryString:**
   ```json
   {
-    "integrity_value": "b67b72dc464811ee893256b4847bdbda"
+    "token_version_id": "202309211133050G-NC5ECC120-EB789-HH4642G9A8"
   }
   ```
 
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          integrity_value:
-            type: string
-            default: "202309140805241aaf3105dcdb8e669b"
+parameters:
+  - name: token_version_id
+    in: query
+    description: Redis에 저장한 Key 값
+    required: true
+    schema:
+      type: string
+      example: 202309211133050G-NC5ECC120-EB789-HH4642G9A8
+
 
 responses:
   # "200":

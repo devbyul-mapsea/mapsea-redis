@@ -1,0 +1,52 @@
+tags:
+  - standard-mapsea
+summary: "MAPSEA API Auth `User` Reset Password 암호화 데이터 조회"
+description: |
+  <h1>MAPSEA API Auth `User` Reset Password 암호화 데이터 조회</h1>
+  **Endpoint:**  `/redis/standard/v1/mapsea/auth/user/general/reset-pwd-key`</br>
+  **Descritpion:**
+    - MAPSEA API Auth `User` Reset Password 암호화 데이터 조회
+
+  <h1>Request Format</h1>
+  **Method:** `GET`<br>
+  **ContentType:** `application/json`<br>
+  **QueryString:**
+  ```json
+  {
+    "key": "202309140805241aaf3105dcdb8e669b"
+  }
+  ```
+parameters:
+  - name: key
+    in: query
+    description: Redis에 저장한 Key 값
+    required: true
+    schema:
+      type: string
+      example: 202309140805241aaf3105dcdb8e669b
+
+responses:
+  "401":
+    description: Authentication failed
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../swagger.yaml#/components/schemas/Authentication"
+  "403":
+    description: Authentication failed
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../swagger.yaml#/components/schemas/AuthForbidden"
+  "422":
+    description: Validation fail.
+    content:
+      application/json:
+        schema:
+    $ref: "../../../../swagger.yaml#/components/schemas/ValidationError"
+  "500":
+    description: Internal Server Error.
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../swagger.yaml#/components/schemas/InternalError"

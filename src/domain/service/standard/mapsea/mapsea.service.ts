@@ -1,15 +1,15 @@
 import { standard_cli } from '../../../../core/config/redis';
 import {
-  NICE_API_EXPIRE,
-  NICE_API_NAMESPACE,
-  NICE_API_SUB_NAMESPACE,
+  MAPSEA_API_NAMESPACE,
+  MAPSEA_API_SUB_NAMESPACE,
+  MAPSEA_API_EXPIRE,
   REDIS_ERROR_CODE,
   REDIS_ERROR_MESSAGE,
 } from '../../../../core/enum';
 import { ERROR_CODE_BUILDER } from '../../../../core/error';
 
-export class OpenApiNiceService {
-  private static namespace = NICE_API_NAMESPACE.NICE;
+export class MapseaApiService {
+  private static namespace = MAPSEA_API_NAMESPACE.MAPSEA;
 
   private static getNameSpace = (id: string) => {
     const sub_namespace = id;
@@ -23,7 +23,7 @@ export class OpenApiNiceService {
     return this.namespace + ':' + sub_namespace + ':' + key;
   };
 
-  static setNicePassKey = async ({
+  static setUserRestPwdKey = async ({
     key,
     value,
   }: {
@@ -31,11 +31,11 @@ export class OpenApiNiceService {
     value: {
       key: string;
       iv: string;
-      req_no: string;
+      encrypted: string;
     };
   }) => {
     try {
-      const sub_namespace = NICE_API_SUB_NAMESPACE.ENCRYPT;
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.USER_RESET_PWD;
       const redis_key = this.getKey(sub_namespace, key);
 
       const key_check = await standard_cli.exists(redis_key);
@@ -57,15 +57,15 @@ export class OpenApiNiceService {
           .build();
       }
 
-      await standard_cli.expire(redis_key, NICE_API_EXPIRE.SET_NICE_PASS_KEY);
+      await standard_cli.expire(redis_key, MAPSEA_API_EXPIRE.SET_RESET_PWD_KEY);
     } catch (error) {
       throw error;
     }
   };
 
-  static getNicePassKey = async ({ key }: { key: string }) => {
+  static getUserRestPwdKey = async ({ key }: { key: string }) => {
     try {
-      const sub_namespace = NICE_API_SUB_NAMESPACE.ENCRYPT;
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.USER_RESET_PWD;
       const redis_key = this.getKey(sub_namespace, key);
 
       const key_check = await standard_cli.exists(redis_key);
@@ -78,14 +78,17 @@ export class OpenApiNiceService {
       }
 
       const data = await standard_cli.hGetAll(redis_key);
+
+      // await standard_cli.del(redis_key);
 
       return data;
     } catch (error) {
+      console.error(error);
       throw error;
     }
   };
 
-  static setNiceUserInfo = async ({
+  static setCompanyRestPwdKey = async ({
     key,
     value,
   }: {
@@ -93,10 +96,11 @@ export class OpenApiNiceService {
     value: {
       key: string;
       iv: string;
+      encrypted: string;
     };
   }) => {
     try {
-      const sub_namespace = NICE_API_SUB_NAMESPACE.USER_INFO;
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.COMPANY_RESET_PWD;
       const redis_key = this.getKey(sub_namespace, key);
 
       const key_check = await standard_cli.exists(redis_key);
@@ -118,15 +122,15 @@ export class OpenApiNiceService {
           .build();
       }
 
-      await standard_cli.expire(redis_key, NICE_API_EXPIRE.SET_NICE_PASS_KEY);
+      await standard_cli.expire(redis_key, MAPSEA_API_EXPIRE.SET_RESET_PWD_KEY);
     } catch (error) {
       throw error;
     }
   };
 
-  static getNiceUserInfo = async ({ key }: { key: string }) => {
+  static getCompanyRestPwdKey = async ({ key }: { key: string }) => {
     try {
-      const sub_namespace = NICE_API_SUB_NAMESPACE.USER_INFO;
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.COMPANY_RESET_PWD;
       const redis_key = this.getKey(sub_namespace, key);
 
       const key_check = await standard_cli.exists(redis_key);
@@ -139,6 +143,8 @@ export class OpenApiNiceService {
       }
 
       const data = await standard_cli.hGetAll(redis_key);
+
+      await standard_cli.del(redis_key);
 
       return data;
     } catch (error) {

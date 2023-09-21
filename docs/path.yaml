@@ -6,9 +6,25 @@
 /status/db/mysql/health:
   $ref: 'status/mysql/health.yaml'
 
-/redis/standard/v1/nice/pass-key/set:
+# OpenApi
+# - Nice API
+/redis/standard/v1/nice/pass-key:
+  get:
+    $ref: 'standard/openapi/get_nice_pass_key.yaml'    
   post:
     $ref: 'standard/openapi/set_nice_pass_key.yaml'    
-/redis/standard/v1/nice/pass-key/get:
+
+# Mapsea API
+# - Auth
+# - User Reset Pwd
+/redis/standard/v1/mapsea/auth/general/reset-pwd-key:
+  get:
+    $ref: 'standard/mapsea/auth/user/get_reset_pwd_key.yaml'    
   post:
-    $ref: 'standard/openapi/get_nice_pass_key.yaml'    
+    $ref: 'standard/mapsea/auth/user/set_reset_pwd_key.yaml'    
+# - Company Reset Pwd
+/redis/standard/v1/mapsea/auth/company/reset-pwd-key:
+  get:
+    $ref: 'standard/mapsea/auth/company/get_reset_pwd_key.yaml'    
+  post:
+    $ref: 'standard/mapsea/auth/company/set_reset_pwd_key.yaml'    

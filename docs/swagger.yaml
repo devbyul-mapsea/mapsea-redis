@@ -22,7 +22,7 @@ info:
   version: 1.0.11
 
 servers:
-  - url: http://127.0.0.1:4100
+  - url: http://127.0.0.1:4200
 
 tags:
   - name: status

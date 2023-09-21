@@ -1,11 +1,11 @@
 tags:
-  - standard-openapi
-summary: "NICE API PASS 암호화 데이터 저장"
+  - standard-mapsea
+summary: "MAPSEA API Auth `Company` Reset Password 암호화 데이터 저장"
 description: |
-  <h1>NICE API PASS 암호화 데이터 저장</h1>
-  **Endpoint:**  `/redis/standard/v1/nice/pass-key`</br>
+  <h1>MAPSEA API Auth `Company` Reset Password 암호화 데이터 저장</h1>
+  **Endpoint:**  `/redis/standard/v1/mapsea/auth/company/general/reset-pwd-key`</br>
   **Descritpion:**
-    - NICE API PASS 암호화 데이터 저장
+    - MAPSEA API Auth `Company` Reset Password 암호화 데이터 저장
 
   <h1>Request Format</h1>
   **Method:** `POST`<br>
@@ -13,11 +13,11 @@ description: |
   **Body:**
   ```json
   {
-      "token_version_id": "암호화 토큰에서 발급 받은 token_version_id",
+      "key": "integrity_value | hmac",
       "value": {
           "key" : "데이터암호화 key",
           "iv" : "데이터암호화 iv",
-          "req_no" : "Open API 서버 측에서 작성한 고유번호"
+          "encrypted" : "암호화 데이터"
       }
   }
   ```
@@ -28,9 +28,9 @@ requestBody:
       schema:
         type: object
         properties:
-          token_version_id:
+          key:
             type: string
-            default: "20230914081232FD-NC38CC120-9B196-BB564EF181"
+            default: "202309140805241aaf3105dcdb8e669b"
           value:
             type: object
             properties:
@@ -40,9 +40,9 @@ requestBody:
               iv:
                 default: "KkIwy/GbQ6fVDQA=="
                 type: string
-              req_no:
+              encrypted:
                 type: string
-                default: "202309140805241aaf3105dcdb8e669b"
+                default: "20230914081232FD-NC38CC120-9B196-BB564EF181"
 
 responses:
   "401":
@@ -50,22 +50,22 @@ responses:
     content:
       application/json:
         schema:
-          $ref: "../../swagger.yaml#/components/schemas/Authentication"
+          $ref: "../../../../swagger.yaml#/components/schemas/Authentication"
   "403":
     description: Authentication failed
     content:
       application/json:
         schema:
-          $ref: "../../swagger.yaml#/components/schemas/AuthForbidden"
+          $ref: "../../../../swagger.yaml#/components/schemas/AuthForbidden"
   "422":
     description: Validation fail.
     content:
       application/json:
         schema:
-    $ref: "../../swagger.yaml#/components/schemas/ValidationError"
+    $ref: "../../../../swagger.yaml#/components/schemas/ValidationError"
   "500":
     description: Internal Server Error.
     content:
       application/json:
         schema:
-          $ref: "../../swagger.yaml#/components/schemas/InternalError"
+          $ref: "../../../../swagger.yaml#/components/schemas/InternalError"
