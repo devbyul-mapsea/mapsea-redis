@@ -79,7 +79,7 @@ export class MapseaApiService {
 
       const data = await standard_cli.hGetAll(redis_key);
 
-      // await standard_cli.del(redis_key);
+      await standard_cli.del(redis_key);
 
       return data;
     } catch (error) {
