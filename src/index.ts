@@ -7,6 +7,11 @@ const PORT = env.server.port;
 const MODE = env.node.mode;
 
 app.listen(PORT, () => {
-  logger.info(`Server listening on port : ${PORT}`);
-  logger.info(`Server mode : ${MODE}`);
+  if (MODE === env.node.prod) {
+    console.log(`Server listening on port : ${PORT}`);
+    console.log(`Server mode : ${MODE}`);
+  } else {
+    logger.info(`Server listening on port : ${PORT}`);
+    logger.info(`Server mode : ${MODE}`);
+  }
 });

@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  node:
+    
+
+  redis-standard:
+    container_name: redis-standard
+    iamge: redis:7.2
+    command: ["redis-server", "etc/redis/redis.conf"]
+    volumes:
+      - ./redis/standard/redis.conf:/etc/redis/redis.conf
+    restart: always
+    ports:
+      - "7000:7000"
