@@ -11,17 +11,16 @@ WORKDIR /app
 RUN echo '[Run] mkdir -p /app'
 RUN echo 'Docker WorkDirectory `/app`'
 
-# Set Env Value
-ENV NODE_MODE='local'
-
 # Install app dependencies from package.json. 
 # If modules are not included in the package.json file enter a RUN command.
 # E.g. RUN npm install <module-name>
-COPY package.json .
+COPY ./app/package.json .
 RUN npm install
 
+COPY ./app .
+RUN rm -rf ./dist
+
 # Build Source Code
-COPY . .
 RUN npm install typescript -g
 RUN tsc -p tsconfig.json
 
@@ -35,7 +34,10 @@ RUN npm install pm2 -g
 # Install pm2-logrotate
 RUN pm2 install pm2-logrotate
 
+# Health Check ( interval 5m / timeout 3s )
+HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://localhost:4200/ || exit 1
+
 # Start Node Server - Redis Reverse Proxy Server
-# CMD ["pm2-runtime"]
-CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", $NODE_MODE]
-# CMD ["pm2-runtime", "ecosystem.config.js", "--env", ${NODE_MODE}]
+# When starting the container with pm2, it initializes but then automatically shuts down. 
+# Therefore, it is essential to use pm2-runtime to keep the container running.
+CMD pm2-runtime start ecosystem.config.js --env ${NODE_MODE}

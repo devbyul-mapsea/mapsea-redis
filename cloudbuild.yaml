@@ -1,0 +1,22 @@
+# GCP Cloud Build [ CI / CD ]
+steps:
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - docker-compose.$NODE_MODE.yaml
+      - build
+  
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - docker-compose.$NODE_MODE.yaml
+      - push
+
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      - set
+      - image
+      - deployment/redis-standard
+    env:
+      - CLOUDSDK_COMPUTE_ZONE=asia-east1
+      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1

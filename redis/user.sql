@@ -1,2 +1,2 @@
-ACL SETUSER mapsea on >mapsea allkeys allcommands
+ACL SETUSER mapsea-devbyul on >mapsea-devbyul allkeys allcommands
 ACL SAVE
