@@ -12,7 +12,7 @@ const dotEnvPath = (NODE_MODE: string) => {
       path += '/env/.env.local';
       break;
   }
-  console.log('envfile path : ', path);
+
   return path;
 };
 

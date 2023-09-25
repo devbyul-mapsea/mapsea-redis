@@ -16,7 +16,7 @@ const connection_test_query = async (db_info: {
      * Format : [redis[s]:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]
      * (More info avaliable at IANA).
      */
-    const client = createClient({ legacyMode: true, url: redis_url });
+    const client = createClient({ legacyMode: true, url: redis_url, password });
 
     client.on('error', (err) => {
       throw err;
@@ -49,8 +49,6 @@ const connection_test_query = async (db_info: {
 };
 
 (async () => {
-  console.log('process.env : ', process.env);
-  console.log('dotEnv : ', dotEnv);
   const { standard } = dotEnv.redis;
   [standard].map((db_info) => connection_test_query(db_info));
 })();
