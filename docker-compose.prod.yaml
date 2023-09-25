@@ -17,6 +17,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
+    environment:
+      NODE_MODE: production
     ports:
       - "4200:4200"
     depends_on:
