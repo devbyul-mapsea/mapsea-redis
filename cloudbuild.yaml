@@ -17,15 +17,19 @@ steps:
         && echo INSTANCE       : $_INSTANCE_NAME          \
         && echo -----------------------------------------
 
+  - name: 'gcr.io/$PROJECT_ID/docker-compose'
+    id: 'docker-compose up'
+    args: ['up']
+
   - name: 'docker/compose:1.29.0'
-    id: 'docker-copose build'
+    id: 'docker-compose build'
     args:
       - -f
       - docker-compose.$_NODE_ENV.yaml
       - build
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'docker-copose push'
+    id: 'cloud-builders gcloud push'
     args:
       - push
       - $_IMAGE_NAME
@@ -35,7 +39,7 @@ steps:
     args: 
       - run
       - deploy
-      - $__INSTANCE_NAME
+      - $_INSTANCE_NAME
       - --image
       - $_IMAGE_NAME
       
@@ -52,3 +56,5 @@ options:
 
 images:
   - 'gcr.io/$PROJECT_ID/redis-standard-client:$_NODE_ENV-$BUILD_ID'
+
+tags: ['cloud-builders-community']
