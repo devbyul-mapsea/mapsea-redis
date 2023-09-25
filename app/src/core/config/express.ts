@@ -65,7 +65,7 @@ if (process.env.NODE_MODE != 'production') {
 
   logger.info(`Swagger On : ${swaggerPath}`);
 
-  const rootDir = process.env.PWD as string;
+  const rootDir = process.cwd() as string;
   const swaggerSpec = YAML.load(Path.join(rootDir, '/dist/swagger.yaml'));
   const swaggerOptions = { docExpansion: 'none' };
   const swaggerUiOptions = { explorer: true };

@@ -49,6 +49,8 @@ const connection_test_query = async (db_info: {
 };
 
 (async () => {
+  console.log('process.env : ', process.env);
+  console.log('dotEnv : ', dotEnv);
   const { standard } = dotEnv.redis;
   [standard].map((db_info) => connection_test_query(db_info));
 })();

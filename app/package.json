@@ -10,6 +10,12 @@
     "win:prod": "cross-env NODE_MODE=production ts-node src/index.ts",
     "win:dev": "npm run swagger & cross-env  NODE_MODE=developer nodemon --exec ts-node --watch src --delay 1 src/index.ts",
     "win:local": "npm run swagger & cross-env NODE_MODE=local nodemon --exec ts-node --watch src --delay 1 src/index.ts",
+    "pm2:local": "pm2 start ecosystem.config.js --env local",
+    "pm2:dev": "pm2 start ecosystem.config.js --env developer",
+    "pm2:prod": "pm2 start ecosystem.config.js --env production",
+    "pm2-runtime:local": "pm2-runtime start ecosystem.config.js --env local",
+    "pm2-runtime:dev": "pm2-runtime start ecosystem.config.js --env developer",
+    "pm2-runtime:prod": "pm2-runtime start ecosystem.config.js --env production",
     "swagger": "swagger-cli bundle ./docs/swagger.yaml --outfile ./dist/swagger.yaml --type yaml",
     "build": "rm -rf ./dist & tsc -p tsconfig.json & npm run swagger"
   },
