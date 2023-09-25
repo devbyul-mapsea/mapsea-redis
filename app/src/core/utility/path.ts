@@ -2,10 +2,10 @@ const dotEnvPath = (NODE_MODE: string) => {
   let path = process.cwd();
 
   switch (NODE_MODE) {
-    case process.env.NODE_MODE_DEV:
+    case 'developer':
       path += '/env/.env.developer';
       break;
-    case process.env.NODE_MODE_PROD:
+    case 'production':
       path += '/env/.env.production';
       break;
     default:
