@@ -27,8 +27,6 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'docker-copose push'
     args:
-      - -f
-      - docker-compose.$_NODE_ENV.yaml
       - push
       - $_IMAGE_NAME
 
