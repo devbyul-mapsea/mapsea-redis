@@ -25,7 +25,7 @@ steps:
       - up
       - -d
 
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: 'deploy'
     args: 
       - compute instances update-container ${_INSTANCE_NAME}
