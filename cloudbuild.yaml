@@ -33,7 +33,7 @@ steps:
     id: 'tag-image'
     args:
       - tag
-      - ${_IMAGE_NAME}:${_NODE_TAG}
+      - $_IMAGE_NAME:$_NODE_TAG
       - ${_IMAGE_URL}
 
   - name: 'gcr.io/cloud-builders/docker'
