@@ -10,24 +10,36 @@ steps:
         && echo ----------------------------------------- \
         && echo Build Location : $LOCATION                \
         && echo Build ID       : $BUILD_ID                \
+        && echo Project ID     : $PROJECT_ID              \
         && echo TRIGGER_NAME   : $TRIGGER_NAME            \
         && echo COMMIT_ID      : $COMMIT_SHA              \
-        && echo MODE           : $_MODE                   \
-        && echo NODE_ENV       : $_NODE_ENV               \
+        && echo _NODE_ENV     : $_NODE_ENV              \
         && echo INSTANCE       : $_INSTANCE_NAME          \
         && echo -----------------------------------------
-        
-  - name: docker/compose:1.29.0
-    args:
-      - -f
-      - docker-compose.$_MODE.yaml
-      - build
-  
-  - name: docker/compose:1.29.0
-    args:
-      - -f
-      - docker-compose.$_MODE.yaml
-      - push
 
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - docker-compose.$_NODE_ENV.yaml
+      - up
+      - -d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'deploy'
+    args: [ 'compute', 'instances', 'update-container', '${_INSTANCE_NAME}',
+            '--container-image','${_IMAGE_NAME}',
+            '--zone','${_INSTANCE_ZONE}'
+    ]
+
+substitutions:
+  _IMAGE_NAME: gcr.io/${PROJECT_ID}/redis-standard-client:${_NODE_ENV}-${BUILD_ID}
+  _INSTANCE_NAME: _INSTANCE_NAME
+  _INSTANCE_ZONE: _INSTANCE_ZONE
+  _NODE_ENV: _NODE_ENV
+  
 options:
   logging: CLOUD_LOGGING_ONLY
+  dynamic_substitutions: true
+
+images:
+  - 'gcr.io/$PROJECT_ID/redis-standard-client:$_NODE_ENV-$BUILD_ID'
