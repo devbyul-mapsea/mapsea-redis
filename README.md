@@ -10,17 +10,20 @@
  - Swagger : v3.0.3
  - Swagger-Endpoint : /api-docs
 
+## GCP 환경
+ - Project : redis
+ - .
+
 ## 서버 소개
  - Redis Reverse Proxy 서버입니다.
 
 ### 사용 용도
 
 ## 추가 작업 필요한 부분
-    Docker
     CI/CD
     WhiteList
         서비스 별 접근 가능한 화이트리스트 로직을 구성해야합니다.
-    dev,production 환경에서의 apiKey 회사계정으로 변경 필요
+    
 
 ## 코드 실행 방법
 
