@@ -18,20 +18,29 @@ steps:
         && echo -----------------------------------------
 
   - name: 'docker/compose:1.29.0'
-    id: 'docker-copose up'
+    id: 'docker-copose build'
     args:
       - -f
       - docker-compose.$_NODE_ENV.yaml
-      - up
-      - -d
+      - build
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'docker-copose push'
+    args:
+      - -f
+      - docker-compose.$_NODE_ENV.yaml
+      - push
+      - $_IMAGE_NAME
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'deploy'
     args: 
-      - compute instances update-container ${_INSTANCE_NAME}
-      - --container-image ${_IMAGE_NAME}
-      - --zone ${_INSTANCE_ZONE}
-    
+      - run
+      - deploy
+      - $__INSTANCE_NAME
+      - --image
+      - $_IMAGE_NAME
+      
 
 substitutions:
   _IMAGE_NAME: gcr.io/${PROJECT_ID}/redis-standard-client:${_NODE_ENV}-${BUILD_ID}
