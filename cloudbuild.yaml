@@ -1,5 +1,22 @@
 # GCP Cloud Build [ CI / CD ]
 steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'pre-build'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo ENV Values                                   \
+        && echo ----------------------------------------- \
+        && echo Build Location : $LOCATION                \
+        && echo Build ID       : $BUILD_ID                \
+        && echo TRIGGER_NAME   : $TRIGGER_NAME            \
+        && echo COMMIT_ID      : $COMMIT_SHA              \
+        && echo MODE           : $_MODE                   \
+        && echo NODE_ENV       : $_NODE_ENV               \
+        && echo INSTANCE       : $_INSTANCE_NAME          \
+        && echo -----------------------------------------
+        
   - name: docker/compose:1.29.0
     args:
       - -f
