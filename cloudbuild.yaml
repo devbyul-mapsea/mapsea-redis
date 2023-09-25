@@ -3,13 +3,13 @@ steps:
   - name: docker/compose:1.29.0
     args:
       - -f
-      - docker-compose.$NODE_MODE.yaml
+      - docker-compose.yaml
       - build
   
   - name: docker/compose:1.29.0
     args:
       - -f
-      - docker-compose.$NODE_MODE.yaml
+      - docker-compose.yaml
       - push
 
   - name: gcr.io/cloud-builders/kubectl
