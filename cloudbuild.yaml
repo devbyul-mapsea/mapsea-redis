@@ -37,12 +37,12 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'deploy'
     args: 
-      - run
-      - deploy
-      - $_INSTANCE_NAME
-      - --image
-      - $_IMAGE_NAME
-      
+      - 'run'
+      - 'deploy'
+      - '${_INSTANCE_NAME}'
+      - '--image=${_IMAGE_NAME}'
+      - '--region=${_INSTANCE_ZONE}'
+      - '--platform=managed'
 
 substitutions:
   _IMAGE_NAME: gcr.io/${PROJECT_ID}/redis-standard-client:${_NODE_ENV}-${BUILD_ID}
