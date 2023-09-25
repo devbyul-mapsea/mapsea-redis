@@ -20,7 +20,8 @@ steps:
   - name: 'docker/compose:1.29.0'
     id: 'docker-copose up'
     args:
-      - -f docker-compose.$_NODE_ENV.yaml
+      - -f
+      - docker-compose.$_NODE_ENV.yaml
       - up
       - -d
 
