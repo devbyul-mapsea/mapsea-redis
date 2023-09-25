@@ -13,13 +13,12 @@ steps:
         && echo Project ID     : $PROJECT_ID              \
         && echo TRIGGER_NAME   : $TRIGGER_NAME            \
         && echo COMMIT_ID      : $COMMIT_SHA              \
-        && echo _NODE_ENV     : $_NODE_ENV              \
-        && echo INSTANCE       : $_INSTANCE_NAME          \
-        && echo -----------------------------------------
-
-  - name: 'gcr.io/$PROJECT_ID/docker-compose'
-    id: 'docker-compose up'
-    args: ['up']
+        && echo ----------------------------------------- \
+        && echo _INSTANCE_NAME : $_INSTANCE_NAME          \
+        && echo _INSTANCE_ZONE : $_INSTANCE_ZONE          \
+        && echo _NODE_ENV      : $_NODE_ENV               \
+        && echo _IMAGE_NAME    : $_IMAGE_NAME             \
+        && echo ----------------------------------------- \
 
   - name: 'docker/compose:1.29.0'
     id: 'docker-compose build'
