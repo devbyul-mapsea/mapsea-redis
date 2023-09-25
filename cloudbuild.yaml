@@ -26,7 +26,7 @@ steps:
     id: 'docker-compose build'
     args:
       - -f
-      - docker-compose.{$_NODE_ENV}.yaml
+      - docker-compose.$_NODE_ENV.yaml
       - build
 
   - name: 'gcr.io/cloud-builders/docker'
