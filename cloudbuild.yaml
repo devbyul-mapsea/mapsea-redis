@@ -18,27 +18,29 @@ steps:
         && echo _INSTANCE_ZONE : $_INSTANCE_ZONE          \
         && echo _NODE_ENV      : $_NODE_ENV               \
         && echo _IMAGE_NAME    : $_IMAGE_NAME             \
+        && echo _IMAGE_TAG     : $_IMAGE_TAG              \
+        && echo _IMAGE_URL     : $_IMAGE_URL              \
         && echo ----------------------------------------- \
 
   - name: 'docker/compose:1.29.0'
     id: 'docker-compose build'
     args:
       - -f
-      - docker-compose.$_NODE_ENV.yaml
+      - docker-compose.{$_NODE_ENV}.yaml
       - build
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'tag-image'
     args:
       - tag
-      - ${_IMAGE_TAG}:${_NODE_ENV}-${BUILD_ID}
-      - ${_IMAGE_NAME}
+      - ${_IMAGE_NAME}:${_NODE_TAG}
+      - ${_IMAGE_URL}
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'push-image'
     args:
       - push
-      - ${_IMAGE_NAME}
+      - ${_IMAGE_URL}
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'deploy'
@@ -46,13 +48,14 @@ steps:
       - 'run'
       - 'deploy'
       - '${_INSTANCE_NAME}'
-      - '--image=${_IMAGE_NAME}'
+      - '--image=${_IMAGE_URL}'
       - '--region=${_INSTANCE_ZONE}'
       - '--platform=managed'
 
 substitutions:
-  _IMAGE_TAG: redis-standard-client
-  _IMAGE_NAME: gcr.io/${PROJECT_ID}/${_IMAGE_TAG}:${_NODE_ENV}-${BUILD_ID}
+  _IMAGE_NAME: redis-standard-client
+  _IMAGE_TAG: ${_NODE_ENV}-${BUILD_ID}
+  _IMAGE_URL: gcr.io/${PROJECT_ID}/${_IMAGE_NAME}:${_IMAGE_TAG}
   _INSTANCE_NAME: _INSTANCE_NAME
   _INSTANCE_ZONE: _INSTANCE_ZONE
   _NODE_ENV: _NODE_ENV
