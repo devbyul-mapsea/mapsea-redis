@@ -1,26 +1,26 @@
 # GCP Cloud Build [ CI / CD ]
 steps:
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'pre-build'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        echo ENV Values                                   \
-        && echo ----------------------------------------- \
-        && echo Build Location : $LOCATION                \
-        && echo Build ID       : $BUILD_ID                \
-        && echo Project ID     : $PROJECT_ID              \
-        && echo TRIGGER_NAME   : $TRIGGER_NAME            \
-        && echo COMMIT SHA     : $COMMIT_SHA              \
-        && echo ----------------------------------------- \
-        && echo _INSTANCE_NAME : $_INSTANCE_NAME          \
-        && echo _INSTANCE_ZONE : $_INSTANCE_ZONE          \
-        && echo _NODE_ENV      : $_NODE_ENV               \
-        && echo _IMAGE_NAME    : $_IMAGE_NAME             \
-        && echo _IMAGE_TAG     : $_IMAGE_TAG              \
-        && echo _IMAGE_URL     : $_IMAGE_URL              \
-        && echo ----------------------------------------- \
+  # - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  #   id: 'pre-build'
+  #   entrypoint: 'bash'
+  #   args:
+  #     - '-c'
+  #     - |
+  #       echo ENV Values                                   \
+  #       && echo ----------------------------------------- \
+  #       && echo Build Location : $LOCATION                \
+  #       && echo Build ID       : $BUILD_ID                \
+  #       && echo Project ID     : $PROJECT_ID              \
+  #       && echo TRIGGER_NAME   : $TRIGGER_NAME            \
+  #       && echo COMMIT SHA     : $COMMIT_SHA              \
+  #       && echo ----------------------------------------- \
+  #       && echo _INSTANCE_NAME : $_INSTANCE_NAME          \
+  #       && echo _INSTANCE_ZONE : $_INSTANCE_ZONE          \
+  #       && echo _NODE_ENV      : $_NODE_ENV               \
+  #       && echo _IMAGE_NAME    : $_IMAGE_NAME             \
+  #       && echo _IMAGE_TAG     : $_IMAGE_TAG              \
+  #       && echo _IMAGE_URL     : $_IMAGE_URL              \
+  #       && echo ----------------------------------------- \
 
   - name: 'docker/compose:1.29.0'
     id: 'build-image'
