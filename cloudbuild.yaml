@@ -12,7 +12,7 @@ steps:
         && echo Build ID       : $BUILD_ID                \
         && echo Project ID     : $PROJECT_ID              \
         && echo TRIGGER_NAME   : $TRIGGER_NAME            \
-        && echo COMMIT_ID      : $COMMIT_SHA              \
+        && echo COMMIT SHA     : $COMMIT_SHA              \
         && echo ----------------------------------------- \
         && echo _INSTANCE_NAME : $_INSTANCE_NAME          \
         && echo _INSTANCE_ZONE : $_INSTANCE_ZONE          \

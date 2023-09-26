@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/redis/standard/Dockerfile
-    image: gcr.io/${PROJECT_ID}/redis-standard:${COMMIT_SHA} # 수정된 부분
     ports:
       - "7349:7349"
     networks:
