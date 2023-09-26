@@ -23,11 +23,14 @@ steps:
         && echo ----------------------------------------- \
 
   - name: 'docker/compose:1.29.0'
-    id: 'docker-compose build'
+    id: 'build-image'
     args:
       - -f
       - docker-compose.$_NODE_ENV.yaml
       - build
+      - t
+      - $_IMAGE_NAME:$_IMAGE_TAG
+      - .
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'tag-image'
