@@ -28,7 +28,7 @@ steps:
       - -f
       - docker-compose.$_NODE_ENV.yaml
       - build
-      - t
+      - -t
       - $_IMAGE_NAME:$_IMAGE_TAG
       - .
 
