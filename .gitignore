@@ -219,4 +219,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+redis
+docker
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,windows,visualstudiocode
