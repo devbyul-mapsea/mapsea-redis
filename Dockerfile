@@ -26,6 +26,7 @@ FROM base AS builder
 
 WORKDIR /app
 COPY ./app .
+COPY --from=deps /app/node_modules ./node_modules
 
 # Build Source Code
 RUN npm install typescript -g
