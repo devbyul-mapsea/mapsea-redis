@@ -31,7 +31,8 @@ steps:
     id: 'build-docker-file'
     args: [
       'build', '-t', '${_IMAGE_NAME}',
-      '-f', './Dockerfile', '.'
+      '-f', './Dockerfile', '.',
+      '--build-arg' ,'NODE_MODE=${_NODE_MODE}'
     ]
 
   # 빌드한 이미지를 Artifact Registry로 푸시합니다.
@@ -73,4 +74,3 @@ substitutions:
 
 options:
   dynamic_substitutions: true
-  
