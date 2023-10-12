@@ -45,23 +45,23 @@ steps:
   # 최초 배포시에는 `new-depoly-computer-engine` 을 실행 시켜 새로운 VM 인스턴스를 생성합니다.
   # 인스턴스를 생성 한 이후에는 빌드배포 할 경우엔 `update-depoly-computer-engine` 을 실행시킵니다.
   # Compute Engine VM 인스턴스에 배포 [ VM Instance 생성 ]
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'new-depoly-computer-engine'
-    args: [
-      'compute', 'instances', 'create-with-container', '${_INSTANCE_NAME}',
-      '--container-image', '${_IMAGE_NAME}',
-      '--zone', '${_INSTANCE_ZONE}',
-      '--machine-type', '${_MACHINE_TYPE}'
-    ]
-  
-  # Compute Engine VM 인스턴스에 배포 [ VM Instance 수정 ]
   # - name: 'gcr.io/cloud-builders/gcloud'
-  #   id: 'update-depoly-computer-engine'
+  #   id: 'new-depoly-computer-engine'
   #   args: [
-  #     'compute', 'instances', 'update-container', '${_INSTANCE_NAME}',
+  #     'compute', 'instances', 'create-with-container', '${_INSTANCE_NAME}',
   #     '--container-image', '${_IMAGE_NAME}',
   #     '--zone', '${_INSTANCE_ZONE}',
+  #     '--machine-type', '${_MACHINE_TYPE}'
   #   ]
+  
+  # Compute Engine VM 인스턴스에 배포 [ VM Instance 수정 ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'update-depoly-computer-engine'
+    args: [
+      'compute', 'instances', 'update-container', '${_INSTANCE_NAME}',
+      '--container-image', '${_IMAGE_NAME}',
+      '--zone', '${_INSTANCE_ZONE}',
+    ]
 
 substitutions:
   _IMAGE_NAME: ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/${_NODE_MODE}-${BUILD_ID} 
