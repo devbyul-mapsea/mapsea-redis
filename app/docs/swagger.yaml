@@ -23,6 +23,7 @@ info:
 
 servers:
   - url: http://127.0.0.1:4200
+  - url: http://dev.api.redis-standard.dev-sea.com
 
 tags:
   - name: status
