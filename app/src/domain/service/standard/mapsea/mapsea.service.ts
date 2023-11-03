@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { standard_cli } from '../../../../core/config/redis';
 import {
   MAPSEA_API_NAMESPACE,
@@ -7,9 +8,13 @@ import {
   REDIS_ERROR_MESSAGE,
 } from '../../../../core/enum';
 import { ERROR_CODE_BUILDER } from '../../../../core/error';
+import dotEnv from '../../../../core/config/dotenv';
 
 export class MapseaApiService {
   private static namespace = MAPSEA_API_NAMESPACE.MAPSEA;
+  private static api = axios.create({
+    baseURL: dotEnv.url.mapsea.sso,
+  });
 
   private static getNameSpace = (id: string) => {
     const sub_namespace = id;
@@ -21,6 +26,71 @@ export class MapseaApiService {
     const sub_namespace = id;
 
     return this.namespace + ':' + sub_namespace + ':' + key;
+  };
+
+  static setRefreshTokenAccessToken = async ({
+    key,
+    value,
+  }: {
+    key: string;
+    value: string;
+  }) => {
+    try {
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.JWT_REFRESH_TOKEN;
+      const redis_key = this.getKey(sub_namespace, key);
+
+      const key_check = await standard_cli.exists(redis_key);
+      if (key_check > 0) {
+        await standard_cli.set(redis_key, value, { KEEPTTL: true });
+      } else {
+        // Refresh Token 유효성 검사
+        const url = 'token/validation/rct';
+
+        const headers = { Authorization: `Bearer ${key}` };
+        const { data } = await this.api.get(url, { headers });
+
+        // Refresh Token 남은 시간 확인
+        const { exp } = data.data;
+        const now_unix_time = new Date().getTime() / 1000;
+        const redis_ttl = Math.round(exp - now_unix_time);
+
+        // Redis 저장
+        await standard_cli.set(redis_key, value, { EX: redis_ttl });
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  static getRefreshTokenAccessToken = async ({ key }: { key: string }) => {
+    try {
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.JWT_REFRESH_TOKEN;
+      const redis_key = this.getKey(sub_namespace, key);
+
+      const key_check = await standard_cli.exists(redis_key);
+      if (key_check === 0) {
+        throw new ERROR_CODE_BUILDER()
+          .forCode(REDIS_ERROR_CODE.DATA_NOT_FOUND_ERROR)
+          .setMessage(REDIS_ERROR_MESSAGE.DATA_NOT_FOUND_ERROR)
+          .setData({ namespace: this.getNameSpace(sub_namespace), key })
+          .build();
+      }
+
+      return await standard_cli.get(redis_key);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  static deleteRefreshTokenAccessToken = async ({ key }: { key: string }) => {
+    try {
+      const sub_namespace = MAPSEA_API_SUB_NAMESPACE.JWT_REFRESH_TOKEN;
+      const redis_key = this.getKey(sub_namespace, key);
+
+      await standard_cli.del(redis_key);
+    } catch (error) {
+      throw error;
+    }
   };
 
   static setUserRestPwdKey = async ({
@@ -88,7 +158,7 @@ export class MapseaApiService {
     }
   };
 
-  static setCompanyRestPwdKey = async ({
+  static setCompanyResetPwdKey = async ({
     key,
     value,
   }: {
@@ -128,7 +198,7 @@ export class MapseaApiService {
     }
   };
 
-  static getCompanyRestPwdKey = async ({ key }: { key: string }) => {
+  static getCompanyResetPwdKey = async ({ key }: { key: string }) => {
     try {
       const sub_namespace = MAPSEA_API_SUB_NAMESPACE.COMPANY_RESET_PWD;
       const redis_key = this.getKey(sub_namespace, key);

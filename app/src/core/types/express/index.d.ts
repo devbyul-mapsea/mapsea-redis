@@ -11,6 +11,9 @@ declare global {
       // Server Port
       SERVER_PORT: number;
 
+      // Service Url
+      URL_MAPSEA_SSO_API: string;
+
       // Redis Standard
       REDIS_STANDARD_HOST: string;
       REDIS_STANDARD_PORT: number;

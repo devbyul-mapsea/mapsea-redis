@@ -6,6 +6,27 @@ import { validatorErrorChecker } from '../../../../middleware/validation';
 import MapseaApiController from '../../../../controller/standard/mapsea/mapsea.controller';
 
 const router = Router();
+router.get(
+  '/jwt',
+  query('rct').notEmpty().isString(),
+  validatorErrorChecker,
+  MapseaApiController.getRefreshTokenAccessToken
+);
+
+router.post(
+  '/jwt',
+  body('rct').notEmpty().isString(),
+  body('act').notEmpty().isString(),
+  validatorErrorChecker,
+  MapseaApiController.setRefreshTokenAccessToken
+);
+
+router.delete(
+  '/jwt',
+  body('rct').notEmpty().isString(),
+  validatorErrorChecker,
+  MapseaApiController.deleteRefreshTokenAccessToken
+);
 
 router.post(
   '/auth/general/reset-pwd-key',
@@ -33,14 +54,14 @@ router.post(
   body('value.iv').notEmpty().isString(),
   body('value.encrypted').notEmpty().isString(),
   validatorErrorChecker,
-  MapseaApiController.setCompanyRestPwdKey
+  MapseaApiController.setCompanyResetPwdKey
 );
 
 router.get(
   '/auth/company/reset-pwd-key',
   query('key').notEmpty().isString(),
   validatorErrorChecker,
-  MapseaApiController.getCompanyRestPwdKey
+  MapseaApiController.getCompanyResetPwdKey
 );
 
 export default router;

@@ -7,6 +7,48 @@ import qs from 'qs';
 import { MapseaApiService } from '../../../service/standard/mapsea/mapsea.service';
 
 export default class MapseaApiController extends BaseController {
+  static setRefreshTokenAccessToken: IController = async (req, res) => {
+    try {
+      console.log(req.body);
+      const { rct: key, act: value } = req.body;
+
+      const setRefreshTokenAccessTokenParam = { key, value };
+      await MapseaApiService.setRefreshTokenAccessToken(
+        setRefreshTokenAccessTokenParam
+      );
+      ApiResponse.result(res, StatusCodes.OK);
+    } catch (error: any) {
+      BaseController.ErrorResponse(res, error);
+    }
+  };
+  static getRefreshTokenAccessToken: IController = async (req, res) => {
+    try {
+      const { rct: key } = req.body;
+
+      const getRefreshTokenAccessTokenParam = { key };
+      await MapseaApiService.getRefreshTokenAccessToken(
+        getRefreshTokenAccessTokenParam
+      );
+      ApiResponse.result(res, StatusCodes.OK);
+    } catch (error: any) {
+      BaseController.ErrorResponse(res, error);
+    }
+  };
+  static deleteRefreshTokenAccessToken: IController = async (req, res) => {
+    try {
+      console.log(req.body);
+      const { rct: key } = req.body;
+
+      const deleteRefreshTokenAccessTokenParam = { key };
+      await MapseaApiService.deleteRefreshTokenAccessToken(
+        deleteRefreshTokenAccessTokenParam
+      );
+      ApiResponse.result(res, StatusCodes.OK);
+    } catch (error: any) {
+      BaseController.ErrorResponse(res, error);
+    }
+  };
+
   static setUserRestPwdKey: IController = async (req, res) => {
     try {
       const { email_hash: key, value } = req.body;
@@ -35,12 +77,12 @@ export default class MapseaApiController extends BaseController {
     }
   };
 
-  static setCompanyRestPwdKey: IController = async (req, res) => {
+  static setCompanyResetPwdKey: IController = async (req, res) => {
     try {
       const { email_hash: key, value } = req.body;
 
-      const setCompanyRestPwdKeyParam = { key, value };
-      await MapseaApiService.setCompanyRestPwdKey(setCompanyRestPwdKeyParam);
+      const setCompanyResetPwdKeyParam = { key, value };
+      await MapseaApiService.setCompanyResetPwdKey(setCompanyResetPwdKeyParam);
 
       ApiResponse.result(res, StatusCodes.OK);
     } catch (error: any) {
@@ -48,13 +90,13 @@ export default class MapseaApiController extends BaseController {
     }
   };
 
-  static getCompanyRestPwdKey: IController = async (req, res) => {
+  static getCompanyResetPwdKey: IController = async (req, res) => {
     try {
       const { key }: any = req.query;
 
-      const getCompanyRestPwdKeyParam = { key };
-      const result = await MapseaApiService.getCompanyRestPwdKey(
-        getCompanyRestPwdKeyParam
+      const getCompanyResetPwdKeyParam = { key };
+      const result = await MapseaApiService.getCompanyResetPwdKey(
+        getCompanyResetPwdKeyParam
       );
 
       ApiResponse.result(res, StatusCodes.OK, result);

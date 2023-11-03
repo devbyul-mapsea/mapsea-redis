@@ -20,6 +20,11 @@ const dotEnv = {
       password: process.env.REDIS_STANDARD_PASSWORD,
     },
   },
+  url: {
+    mapsea: {
+      sso: process.env.URL_MAPSEA_SSO_API,
+    },
+  },
 };
 
 export default dotEnv;

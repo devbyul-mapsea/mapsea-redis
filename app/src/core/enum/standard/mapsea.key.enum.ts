@@ -3,6 +3,7 @@ export enum MAPSEA_API_NAMESPACE {
 }
 
 export enum MAPSEA_API_SUB_NAMESPACE {
+  JWT_REFRESH_TOKEN = 'jwt:refresh_token',
   USER_RESET_PWD = 'user:reset_pwd',
   COMPANY_RESET_PWD = 'company:reset_pwd',
 }
