@@ -28,6 +28,15 @@ export class MapseaApiService {
     return this.namespace + ':' + sub_namespace + ':' + key;
   };
 
+  static getVerfiyJwtToken = async (jwt: string): Promise<any> => {
+    const url = 'token/validation/jwt';
+
+    const headers = { Authorization: `Bearer ${jwt}` };
+    const { data } = await this.api.get(url, { headers });
+
+    return data;
+  };
+
   static setRefreshTokenAccessToken = async ({
     key,
     value,
@@ -38,24 +47,28 @@ export class MapseaApiService {
     try {
       const sub_namespace = MAPSEA_API_SUB_NAMESPACE.JWT_REFRESH_TOKEN;
       const redis_key = this.getKey(sub_namespace, key);
-
       const key_check = await standard_cli.exists(redis_key);
-      if (key_check > 0) {
-        await standard_cli.set(redis_key, value, { KEEPTTL: true });
-      } else {
-        // Refresh Token 유효성 검사
-        const url = 'token/validation/rct';
 
-        const headers = { Authorization: `Bearer ${key}` };
-        const { data } = await this.api.get(url, { headers });
+      const { data } = await this.getVerfiyJwtToken(value);
+      const { id, type } = data;
+
+      // 최초 로그인 한 경우
+      if (key_check === 0) {
+        // Refresh Token 유효성 검사
+        const { data } = await this.getVerfiyJwtToken(key);
 
         // Refresh Token 남은 시간 확인
-        const { exp } = data.data;
+        const { exp } = data;
         const now_unix_time = new Date().getTime() / 1000;
         const redis_ttl = Math.round(exp - now_unix_time);
-
+        const hSetValue = { act: value, id, type };
         // Redis 저장
-        await standard_cli.set(redis_key, value, { EX: redis_ttl });
+        await standard_cli.hSet(redis_key, hSetValue);
+        await standard_cli.expire(redis_key, redis_ttl);
+      }
+      // 토큰을 재발급 받은 경우 { 추가적인 로직 필요  KEEPTTL 정상작동 하는지 확인 해야함 }
+      else {
+        await standard_cli.hSet(redis_key, 'act', value, { KEEPTTL: true });
       }
     } catch (error) {
       throw error;
@@ -76,7 +89,7 @@ export class MapseaApiService {
           .build();
       }
 
-      return await standard_cli.get(redis_key);
+      return await standard_cli.hGetAll(redis_key);
     } catch (error) {
       throw error;
     }

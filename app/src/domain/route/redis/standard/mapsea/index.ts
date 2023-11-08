@@ -1,28 +1,27 @@
 import { Router } from 'express';
 
-import { body, query } from 'express-validator';
+import { body, header, query } from 'express-validator';
 import { validatorErrorChecker } from '../../../../middleware/validation';
 
 import MapseaApiController from '../../../../controller/standard/mapsea/mapsea.controller';
 
 const router = Router();
 router.get(
-  '/jwt',
+  '/auth/jwt',
   query('rct').notEmpty().isString(),
   validatorErrorChecker,
   MapseaApiController.getRefreshTokenAccessToken
 );
 
 router.post(
-  '/jwt',
+  '/auth/jwt',
   body('rct').notEmpty().isString(),
-  body('act').notEmpty().isString(),
   validatorErrorChecker,
   MapseaApiController.setRefreshTokenAccessToken
 );
 
 router.delete(
-  '/jwt',
+  '/auth/jwt',
   body('rct').notEmpty().isString(),
   validatorErrorChecker,
   MapseaApiController.deleteRefreshTokenAccessToken

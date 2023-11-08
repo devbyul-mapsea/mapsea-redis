@@ -5,11 +5,12 @@ import { IController } from '../../../../core/interface';
 import { OpenApiNiceService } from '../../../service/standard/openapi/nice.service';
 import qs from 'qs';
 import { MapseaApiService } from '../../../service/standard/mapsea/mapsea.service';
+import { ERROR_CODE_BUILDER } from '../../../../core/error';
+import { AUTH_ERROR_CODE } from '../../../../core/enum';
 
 export default class MapseaApiController extends BaseController {
   static setRefreshTokenAccessToken: IController = async (req, res) => {
     try {
-      console.log(req.body);
       const { rct: key, act: value } = req.body;
 
       const setRefreshTokenAccessTokenParam = { key, value };
@@ -23,21 +24,25 @@ export default class MapseaApiController extends BaseController {
   };
   static getRefreshTokenAccessToken: IController = async (req, res) => {
     try {
-      const { rct: key } = req.body;
+      const { rct }: any = req.query;
 
-      const getRefreshTokenAccessTokenParam = { key };
-      await MapseaApiService.getRefreshTokenAccessToken(
+      const getRefreshTokenAccessTokenParam = { key: rct };
+      const {
+        id,
+        type,
+        act: prev_act,
+      } = await MapseaApiService.getRefreshTokenAccessToken(
         getRefreshTokenAccessTokenParam
       );
-      ApiResponse.result(res, StatusCodes.OK);
+
+      ApiResponse.result(res, StatusCodes.OK, { id, type, prev_act });
     } catch (error: any) {
       BaseController.ErrorResponse(res, error);
     }
   };
   static deleteRefreshTokenAccessToken: IController = async (req, res) => {
     try {
-      console.log(req.body);
-      const { rct: key } = req.body;
+      const { rct: value, act: key } = req.body;
 
       const deleteRefreshTokenAccessTokenParam = { key };
       await MapseaApiService.deleteRefreshTokenAccessToken(
