@@ -23,8 +23,12 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
  * 해당하는 서비스 url 을 origin에 추가하여 화이트리스트로 작성 합니다.
  */
 const origin = [
+  'http://127.0.0.1:3000',
   'http://127.0.0.1:4200',
-  'http://dev.api.redis-standard.dev-sea.com',
+  'http://localhost:4200',
+  'http://dev.api.navigation.dev-sea.com',
+  'http://dev.api.open-api.dev-sea.com',
+  'http://dev.api.redis-standard.dev-sea.com/',
 ];
 const corsOption: CorsOptions = {
   origin,
